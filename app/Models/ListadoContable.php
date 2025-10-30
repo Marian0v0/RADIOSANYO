@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class ListadoContable extends Model
 {
@@ -12,6 +13,11 @@ class ListadoContable extends Model
     protected $table = 'sgies_listado_contable';
     public $timestamps = false;
     protected $fillable = ['fecha_registro'];
+    
+    // Agrega las conversiones de fecha
+    protected $casts = [
+        'fecha_registro' => 'datetime',
+    ];
     
     public function productos()
     {

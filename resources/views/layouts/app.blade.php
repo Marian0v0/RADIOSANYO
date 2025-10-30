@@ -97,6 +97,22 @@
             width: 20px;
         }
         
+        .sidebar-divider {
+            height: 1px;
+            background: var(--gray-800);
+            margin: 1rem 0;
+        }
+        
+        .sidebar-section {
+            color: var(--gray-500);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+        }
+        
         .main-content {
             margin-left: 260px;
             padding: 2rem 2.5rem;
@@ -251,6 +267,11 @@
             color: white;
         }
         
+        .badge.bg-danger {
+            background: #dc2626 !important;
+            color: white;
+        }
+        
         .alert {
             border: none;
             border-radius: 10px;
@@ -341,14 +362,40 @@
             font-size: 0.8125rem;
             color: var(--gray-800);
         }
+
+        /* Estilos para el dropdown del área de compras */
+        .sidebar-nav .dropdown-menu {
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            border-radius: 8px;
+            padding: 0.5rem;
+        }
+        
+        .sidebar-nav .dropdown-item {
+            color: var(--gray-400);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+        
+        .sidebar-nav .dropdown-item:hover {
+            background: var(--gray-700);
+            color: white;
+        }
+        
+        .sidebar-nav .dropdown-toggle::after {
+            margin-left: auto;
+        }
     </style>
 </head>
 <body>
     <!-- Sidebar -->
     <nav class="sidebar">
         <div class="sidebar-header">
+             <a href="{{ route('home') }}" style="text-decoration: none; color: inherit;">
             <h1 class="sidebar-logo">SGIES</h1>
-            <p class="sidebar-subtitle">Radio Sanyo</p>
+                <p class="sidebar-subtitle">Radio Sanyo</p>
+            </a>
         </div>
         
         <div class="sidebar-nav">
@@ -375,6 +422,31 @@
                     <a class="nav-link {{ request()->is('solicitudes*') ? 'active' : '' }}" href="{{ route('solicitudes.index') }}">
                         <i class="bi bi-clipboard-check"></i>
                         <span>Solicitudes</span>
+                    </a>
+                </li>
+                
+                <!-- Divider -->
+                <div class="sidebar-divider"></div>
+                
+                <!-- Área de Compras -->
+                <div class="sidebar-section">Área de Compras</div>
+                
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('compras/facturas*') ? 'active' : '' }}" href="{{ route('compras.facturas') }}">
+                        <i class="bi bi-receipt"></i>
+                        <span>Facturas del Día</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('compras/proveedores*') ? 'active' : '' }}" href="{{ route('compras.proveedores') }}">
+                        <i class="bi bi-building"></i>
+                        <span>Información Proveedores</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('compras/mercancia-lenta*') ? 'active' : '' }}" href="{{ route('compras.mercancia-lenta') }}">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        <span>Mercancía Lenta</span>
                     </a>
                 </li>
             </ul>
