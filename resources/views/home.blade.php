@@ -26,26 +26,14 @@
             position: relative;
         }
 
-        /* Efectos de partículas en el fondo */
-        .particles {
+        /* Canvas para las burbujas */
+        #bubblesCanvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 6s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
         }
 
         .welcome-container {
@@ -103,9 +91,10 @@
             align-items: center;
             gap: 1rem;
             transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+            box-shadow: 0 10px 30px rgba(219, 219, 219, 0.6);
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .enter-btn::before {
@@ -121,7 +110,7 @@
 
         .enter-btn:hover {
             transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.6);
+            box-shadow: 0 15px 40px rgba(219, 219, 219, 0.6);
             color: white;
             text-decoration: none;
         }
@@ -149,7 +138,6 @@
             z-index: 2;
         }
 
-        /* Efectos de brillo */
         .glow {
             position: absolute;
             width: 500px;
@@ -206,24 +194,26 @@
     </style>
 </head>
 <body>
-    <!-- Efecto de partículas -->
-    <div class="particles" id="particles"></div>
+    <!-- Canvas para burbujas -->
+    <canvas id="bubblesCanvas"></canvas>
     
     <!-- Efecto de brillo -->
     <div class="glow"></div>
 
     <!-- Contenido principal -->
     <div class="welcome-container">
-        <!-- Logo -->
-        <img src="{{ asset('RadioSanyo.png') }}" 
+        <!-- Placeholder para logo -->
+        <div style="max-width: 400px; width: 100%; height: 150px; margin: 0 auto 3rem; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));">
+             <img src="{{ asset('RadioSanyo.png') }}" 
              alt="Radio Sanyo" class="logo">
+        </div>
         
         <!-- Título del sistema -->
         <h1 class="system-title">SGIES</h1>
         <p class="system-subtitle">SISTEMA DE GESTIÓN INTEGRAL</p>
 
         <!-- Botón de ingreso -->
-        <a href="{{ route('bodegas.index') }}" class="enter-btn">
+        <a href="#" class="enter-btn" onclick="alert('Redirigiendo al sistema...'); return false;">
             <span class="btn-icon">
                 <i class="bi bi-box-arrow-in-right"></i>
             </span>
@@ -233,35 +223,155 @@
 
     <!-- Versión -->
     <div class="version">
-        Radio Sanyo Pasto &copy; 2024
+        Radio Sanyo Pasto &copy; 2025
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Crear partículas dinámicas
-        document.addEventListener('DOMContentLoaded', function() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 15;
-
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                
-                // Tamaño aleatorio
-                const size = Math.random() * 6 + 2;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                
-                // Posición aleatoria
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.top = `${Math.random() * 100}%`;
-                
-                // Retraso de animación aleatorio
-                particle.style.animationDelay = `${Math.random() * 6}s`;
-                
-                particlesContainer.appendChild(particle);
+        // Sistema de burbujas interactivas tipo Hollow Knight
+        class Bubble {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.reset();
+                this.y = Math.random() * canvas.height;
+                this.baseVelocity = this.velocity;
             }
+
+            reset() {
+                this.x = Math.random() * this.canvas.width;
+                this.y = -50;
+                this.radius = Math.random() * 30 + 10;
+                this.velocity = Math.random() * 0.5 + 0.2;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                this.wobble = Math.random() * 0.02 + 0.01;
+                this.wobbleOffset = Math.random() * Math.PI * 2;
+                this.baseVelocity = this.velocity;
+            }
+
+            update(mouseX, mouseY) {
+                // Movimiento hacia abajo con wobble
+                this.y += this.velocity;
+                this.x += Math.sin(this.y * this.wobble + this.wobbleOffset) * 0.5;
+
+                // Interacción con el mouse
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const interactionRadius = 150;
+
+                if (distance < interactionRadius) {
+                    const force = (interactionRadius - distance) / interactionRadius;
+                    const angle = Math.atan2(dy, dx);
+                    
+                    // Empujar burbujas suavemente
+                    this.x -= Math.cos(angle) * force * 2;
+                    this.y -= Math.sin(angle) * force * 2;
+                    
+                    // Hacer burbujas más visibles cerca del mouse
+                    this.opacity = Math.min(0.5, this.opacity + force * 0.2);
+                } else {
+                    // Restaurar opacidad gradualmente
+                    this.opacity = Math.max(Math.random() * 0.3 + 0.1, this.opacity - 0.01);
+                }
+
+                // Reset cuando sale de la pantalla
+                if (this.y > this.canvas.height + 50 || 
+                    this.x < -50 || 
+                    this.x > this.canvas.width + 50) {
+                    this.reset();
+                }
+            }
+
+            draw(ctx) {
+                // Burbuja principal con gradiente
+                const gradient = ctx.createRadialGradient(
+                    this.x - this.radius * 0.3,
+                    this.y - this.radius * 0.3,
+                    0,
+                    this.x,
+                    this.y,
+                    this.radius
+                );
+                
+                gradient.addColorStop(0, `rgba(255, 255, 255, ${this.opacity * 0.8})`);
+                gradient.addColorStop(0.4, `rgba(200, 200, 200, ${this.opacity * 0.4})`);
+                gradient.addColorStop(1, `rgba(150, 150, 150, ${this.opacity * 0.1})`);
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // Borde sutil
+                ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity * 0.3})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                // Brillo interno
+                ctx.beginPath();
+                ctx.arc(
+                    this.x - this.radius * 0.3,
+                    this.y - this.radius * 0.3,
+                    this.radius * 0.3,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity * 0.6})`;
+                ctx.fill();
+            }
+        }
+
+        class BubbleSystem {
+            constructor() {
+                this.canvas = document.getElementById('bubblesCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.bubbles = [];
+                this.mouseX = 0;
+                this.mouseY = 0;
+                this.bubbleCount = 25;
+
+                this.init();
+            }
+
+            init() {
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+                window.addEventListener('mousemove', (e) => this.handleMouse(e));
+                
+                // Crear burbujas
+                for (let i = 0; i < this.bubbleCount; i++) {
+                    this.bubbles.push(new Bubble(this.canvas));
+                }
+
+                this.animate();
+            }
+
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+
+            handleMouse(e) {
+                this.mouseX = e.clientX;
+                this.mouseY = e.clientY;
+            }
+
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                this.bubbles.forEach(bubble => {
+                    bubble.update(this.mouseX, this.mouseY);
+                    bubble.draw(this.ctx);
+                });
+
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        // Inicializar sistema de burbujas
+        document.addEventListener('DOMContentLoaded', function() {
+            new BubbleSystem();
 
             // Efecto de tecleo para el subtítulo
             const subtitle = document.querySelector('.system-subtitle');
@@ -277,7 +387,6 @@
                 }
             };
             
-            // Iniciar efecto de tecleo después de un breve delay
             setTimeout(typeWriter, 1000);
         });
     </script>
