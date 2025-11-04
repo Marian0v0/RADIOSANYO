@@ -72,5 +72,52 @@
     </div>
 </div>
 
-{{ $listados->links() }}
+@if($listados->hasPages())
+<div class="mt-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        {{-- Información de resultados --}}
+        <div class="text-muted small">
+            Mostrando 
+            <span class="fw-semibold">{{ $listados->firstItem() ?? 0 }}</span> 
+            a 
+            <span class="fw-semibold">{{ $listados->lastItem() ?? 0 }}</span> 
+            de 
+            <span class="fw-semibold">{{ $listados->total() }}</span> 
+            resultados
+        </div>
+
+        {{-- Navegación --}}
+        <nav aria-label="Paginación de listados">
+            <ul class="pagination pagination-sm mb-0">
+                {{-- Enlace anterior --}}
+                <li class="page-item {{ $listados->onFirstPage() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $listados->previousPageUrl() }}" aria-label="Anterior">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
+
+                {{-- Elementos de paginación --}}
+                @foreach($listados->getUrlRange(1, $listados->lastPage()) as $page => $url)
+                    @if($page == $listados->currentPage())
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{ $page }}</span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                        </li>
+                    @endif
+                @endforeach
+
+                {{-- Enlace siguiente --}}
+                <li class="page-item {{ !$listados->hasMorePages() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $listados->nextPageUrl() }}" aria-label="Siguiente">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+@endif
 @endsection

@@ -74,7 +74,54 @@
                     </tbody>
                 </table>
             </div>
-            {{ $facturas->links() }}
+            @if($facturas->hasPages())
+<div class="mt-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        {{-- Información de resultados --}}
+        <div class="text-muted small">
+            Mostrando 
+            <span class="fw-semibold">{{ $facturas->firstItem() ?? 0 }}</span> 
+            a 
+            <span class="fw-semibold">{{ $facturas->lastItem() ?? 0 }}</span> 
+            de 
+            <span class="fw-semibold">{{ $facturas->total() }}</span> 
+            resultados
+        </div>
+
+        {{-- Navegación --}}
+        <nav aria-label="Paginación de facturas">
+            <ul class="pagination pagination-sm mb-0">
+                {{-- Enlace anterior --}}
+                <li class="page-item {{ $facturas->onFirstPage() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $facturas->previousPageUrl() }}" aria-label="Anterior">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
+
+                {{-- Elementos de paginación --}}
+                @foreach($facturas->getUrlRange(1, $facturas->lastPage()) as $page => $url)
+                    @if($page == $facturas->currentPage())
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{ $page }}</span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                        </li>
+                    @endif
+                @endforeach
+
+                {{-- Enlace siguiente --}}
+                <li class="page-item {{ !$facturas->hasMorePages() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $facturas->nextPageUrl() }}" aria-label="Siguiente">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+@endif
         @else
             <div class="text-center py-5">
                 <i class="bi bi-receipt-cutoff" style="font-size: 3rem; opacity: 0.3;"></i>

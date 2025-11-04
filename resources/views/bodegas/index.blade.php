@@ -62,5 +62,53 @@
     </div>
 </div>
 
-{{ $bodegas->links() }}
+{{-- Paginación Mejorada --}}
+@if($bodegas->hasPages())
+<div class="mt-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        {{-- Información de resultados --}}
+        <div class="text-muted small">
+            Mostrando 
+            <span class="fw-semibold">{{ $bodegas->firstItem() ?? 0 }}</span> 
+            a 
+            <span class="fw-semibold">{{ $bodegas->lastItem() ?? 0 }}</span> 
+            de 
+            <span class="fw-semibold">{{ $bodegas->total() }}</span> 
+            resultados
+        </div>
+
+        {{-- Navegación --}}
+        <nav aria-label="Paginación de bodegas">
+            <ul class="pagination pagination-sm mb-0">
+                {{-- Enlace anterior --}}
+                <li class="page-item {{ $bodegas->onFirstPage() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $bodegas->previousPageUrl() }}" aria-label="Anterior">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
+
+                {{-- Elementos de paginación --}}
+                @foreach($bodegas->getUrlRange(1, $bodegas->lastPage()) as $page => $url)
+                    @if($page == $bodegas->currentPage())
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{ $page }}</span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                        </li>
+                    @endif
+                @endforeach
+
+                {{-- Enlace siguiente --}}
+                <li class="page-item {{ !$bodegas->hasMorePages() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $bodegas->nextPageUrl() }}" aria-label="Siguiente">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+@endif
 @endsection

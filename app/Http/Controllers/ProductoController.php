@@ -10,7 +10,8 @@ class ProductoController extends Controller
 {
     public function index()
     {
-        $productos = Producto::with('bodegas')->paginate(15);
+        // Usa withCount para contar las bodegas relacionadas
+        $productos = Producto::withCount('bodegas')->paginate(15);
         return view('productos.index', compact('productos'));
     }
 
@@ -50,6 +51,7 @@ class ProductoController extends Controller
     public function edit(Producto $producto)
     {
         $bodegas = Bodega::all();
+        $producto->load('bodegas');
         return view('productos.edit', compact('producto', 'bodegas'));
     }
 

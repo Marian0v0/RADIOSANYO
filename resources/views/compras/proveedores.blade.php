@@ -123,7 +123,54 @@
                     </tbody>
                 </table>
             </div>
-            {{ $productos->links() }}
+            @if($productos->hasPages())
+<div class="mt-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        {{-- Información de resultados --}}
+        <div class="text-muted small">
+            Mostrando 
+            <span class="fw-semibold">{{ $productos->firstItem() ?? 0 }}</span> 
+            a 
+            <span class="fw-semibold">{{ $productos->lastItem() ?? 0 }}</span> 
+            de 
+            <span class="fw-semibold">{{ $productos->total() }}</span> 
+            resultados
+        </div>
+
+        {{-- Navegación --}}
+        <nav aria-label="Paginación de productos">
+            <ul class="pagination pagination-sm mb-0">
+                {{-- Enlace anterior --}}
+                <li class="page-item {{ $productos->onFirstPage() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $productos->previousPageUrl() }}" aria-label="Anterior">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
+
+                {{-- Elementos de paginación --}}
+                @foreach($productos->getUrlRange(1, $productos->lastPage()) as $page => $url)
+                    @if($page == $productos->currentPage())
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{ $page }}</span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                        </li>
+                    @endif
+                @endforeach
+
+                {{-- Enlace siguiente --}}
+                <li class="page-item {{ !$productos->hasMorePages() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $productos->nextPageUrl() }}" aria-label="Siguiente">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+@endif
         @else
             <div class="text-center py-5">
                 <i class="bi bi-building" style="font-size: 3rem; opacity: 0.3;"></i>

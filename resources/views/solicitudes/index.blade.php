@@ -82,5 +82,52 @@
     </div>
 </div>
 
-{{ $solicitudes->links() }}
+@if($solicitudes->hasPages())
+<div class="mt-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        {{-- Información de resultados --}}
+        <div class="text-muted small">
+            Mostrando 
+            <span class="fw-semibold">{{ $solicitudes->firstItem() ?? 0 }}</span> 
+            a 
+            <span class="fw-semibold">{{ $solicitudes->lastItem() ?? 0 }}</span> 
+            de 
+            <span class="fw-semibold">{{ $solicitudes->total() }}</span> 
+            resultados
+        </div>
+
+        {{-- Navegación --}}
+        <nav aria-label="Paginación de solicitudes">
+            <ul class="pagination pagination-sm mb-0">
+                {{-- Enlace anterior --}}
+                <li class="page-item {{ $solicitudes->onFirstPage() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $solicitudes->previousPageUrl() }}" aria-label="Anterior">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
+
+                {{-- Elementos de paginación --}}
+                @foreach($solicitudes->getUrlRange(1, $solicitudes->lastPage()) as $page => $url)
+                    @if($page == $solicitudes->currentPage())
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{ $page }}</span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                        </li>
+                    @endif
+                @endforeach
+
+                {{-- Enlace siguiente --}}
+                <li class="page-item {{ !$solicitudes->hasMorePages() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $solicitudes->nextPageUrl() }}" aria-label="Siguiente">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+@endif
 @endsection

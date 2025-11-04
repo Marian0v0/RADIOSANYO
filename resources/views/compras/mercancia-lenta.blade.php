@@ -15,7 +15,7 @@
             <div class="col-md-6">
                 <form action="{{ route('compras.mercancia-lenta') }}" method="GET">
                     <div class="input-group">
-                        <input type="text" class="form-control" name="search" placeholder="Buscar productos..." value="{{ request('search') }}">
+                        <input type="text" class="form-control" name="search" placeholder="Buscar productosLentos..." value="{{ request('search') }}">
                         <button class="btn btn-primary" type="submit">
                             <i class="bi bi-search"></i>
                         </button>
@@ -88,16 +88,63 @@
                     </tbody>
                 </table>
             </div>
-            {{ $productosLentos->links() }}
+            @if($productosLentos->hasPages())
+<div class="mt-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        {{-- Información de resultados --}}
+        <div class="text-muted small">
+            Mostrando 
+            <span class="fw-semibold">{{ $productosLentos->firstItem() ?? 0 }}</span> 
+            a 
+            <span class="fw-semibold">{{ $productosLentos->lastItem() ?? 0 }}</span> 
+            de 
+            <span class="fw-semibold">{{ $productosLentos->total() }}</span> 
+            resultados
+        </div>
+
+        {{-- Navegación --}}
+        <nav aria-label="Paginación de productosLentos">
+            <ul class="pagination pagination-sm mb-0">
+                {{-- Enlace anterior --}}
+                <li class="page-item {{ $productosLentos->onFirstPage() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $productosLentos->previousPageUrl() }}" aria-label="Anterior">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
+
+                {{-- Elementos de paginación --}}
+                @foreach($productosLentos->getUrlRange(1, $productosLentos->lastPage()) as $page => $url)
+                    @if($page == $productosLentos->currentPage())
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{ $page }}</span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                        </li>
+                    @endif
+                @endforeach
+
+                {{-- Enlace siguiente --}}
+                <li class="page-item {{ !$productosLentos->hasMorePages() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $productosLentos->nextPageUrl() }}" aria-label="Siguiente">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+@endif
         @else
             <div class="text-center py-5">
                 <i class="bi bi-check-circle" style="font-size: 3rem; opacity: 0.3; color: #28a745;"></i>
                 <h5 class="mt-3 text-muted">No hay mercancía lenta identificada</h5>
                 <p class="text-muted">
                     @if(request('search'))
-                        No hay productos que coincidan con tu búsqueda.
+                        No hay productosLentos que coincidan con tu búsqueda.
                     @else
-                        Todos los productos tienen una rotación adecuada.
+                        Todos los productosLentos tienen una rotación adecuada.
                     @endif
                 </p>
                 @if(request('search'))
