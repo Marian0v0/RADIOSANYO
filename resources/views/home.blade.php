@@ -78,6 +78,151 @@
             letter-spacing: 0.1em;
         }
 
+        .login-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .login-container:hover::before {
+            left: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-label {
+            color: #ffffff;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .bodega-select-wrapper {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .bodega-select-wrapper::before {
+            content: '\F4FE';
+            font-family: 'bootstrap-icons';
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .bodega-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 12px;
+            padding: 1rem 1rem 1rem 3rem;
+            font-size: 1rem;
+            font-weight: 400;
+            width: 100%;
+            transition: all 0.3s ease;
+            appearance: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .bodega-select:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.6);
+            color: white;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            outline: none;
+        }
+
+        .bodega-select:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .bodega-select option {
+            background: #2a2a2a;
+            color: white;
+            padding: 0.5rem;
+        }
+
+        .bodega-select option:first-child {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .password-input-wrapper::before {
+            content: '\F47A';
+            font-family: 'bootstrap-icons';
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .password-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 12px;
+            padding: 1rem 1rem 1rem 3rem;
+            font-size: 1rem;
+            font-weight: 400;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .password-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .password-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.6);
+            color: white;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            outline: none;
+        }
+
+        .password-input:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
         .enter-btn {
             background: linear-gradient(135deg, #6e6e6d, #a8a8a8);
             color: white;
@@ -95,6 +240,8 @@
             position: relative;
             overflow: hidden;
             cursor: pointer;
+            width: 100%;
+            justify-content: center;
         }
 
         .enter-btn::before {
@@ -110,9 +257,10 @@
 
         .enter-btn:hover {
             transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(219, 219, 219, 0.6);
+            box-shadow: 0 15px 40px rgba(219, 219, 219, 0.8);
             color: white;
             text-decoration: none;
+            background: linear-gradient(135deg, #8a8a89, #b8b8b8);
         }
 
         .enter-btn:hover::before {
@@ -156,6 +304,36 @@
             50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
         }
 
+        .alert {
+            border-radius: 12px;
+            border: none;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.2);
+            color: #ff6b7a;
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+
+        .alert-success {
+            background: rgba(40, 167, 69, 0.2);
+            color: #6aff87;
+            border: 1px solid rgba(40, 167, 69, 0.3);
+        }
+
+        .floating-label {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 0 8px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+            z-index: 3;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .logo {
@@ -175,6 +353,22 @@
                 padding: 1rem 2.5rem;
                 font-size: 1.1rem;
             }
+
+            .login-container {
+                padding: 2rem;
+            }
+
+            .bodega-select,
+            .password-input {
+                padding: 0.875rem 0.875rem 0.875rem 2.5rem;
+                font-size: 0.9rem;
+            }
+
+            .bodega-select-wrapper::before,
+            .password-input-wrapper::before {
+                left: 0.875rem;
+                font-size: 1rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -190,6 +384,31 @@
                 padding: 0.9rem 2rem;
                 font-size: 1rem;
             }
+
+            .login-container {
+                padding: 1.5rem;
+            }
+
+            .bodega-select,
+            .password-input {
+                padding: 0.75rem 0.75rem 0.75rem 2.25rem;
+            }
+
+            .bodega-select-wrapper::before,
+            .password-input-wrapper::before {
+                left: 0.75rem;
+            }
+        }
+
+        /* Efectos de animación para los inputs */
+        @keyframes inputGlow {
+            0%, 100% { border-color: rgba(255, 255, 255, 0.3); }
+            50% { border-color: rgba(255, 255, 255, 0.6); }
+        }
+
+        .bodega-select:focus,
+        .password-input:focus {
+            animation: inputGlow 2s infinite;
         }
     </style>
 </head>
@@ -202,7 +421,7 @@
 
     <!-- Contenido principal -->
     <div class="welcome-container">
-        <!-- Placeholder para logo -->
+        <!-- Logo -->
         <div style="max-width: 400px; width: 100%; height: 150px; margin: 0 auto 3rem; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));">
              <img src="{{ asset('RadioSanyo.png') }}" 
              alt="Radio Sanyo" class="logo">
@@ -212,13 +431,59 @@
         <h1 class="system-title">SGIES</h1>
         <p class="system-subtitle">SISTEMA DE GESTIÓN INTEGRAL</p>
 
-        <!-- Botón de ingreso -->
-        <a href="#" class="enter-btn" onclick="alert('Redirigiendo al sistema...'); return false;">
-            <span class="btn-icon">
-                <i class="bi bi-box-arrow-in-right"></i>
-            </span>
-            INGRESAR AL SISTEMA
-        </a>
+        <!-- Formulario de Login -->
+        <div class="login-container">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    @foreach ($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
+                </div>
+            @endif
+
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                
+                <div class="form-group">
+                    <div class="bodega-select-wrapper">
+                        <label class="floating-label">Bodega</label>
+                        <select class="bodega-select" id="bodega" name="bodega" required>
+                            <option value="">Seleccione una bodega</option>
+                            @foreach($bodegas as $bodega)
+                                <option value="{{ $bodega->nombre }}" {{ old('bodega') == $bodega->nombre ? 'selected' : '' }}>
+                                    {{ $bodega->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="password-input-wrapper">
+                        <label class="floating-label">Contraseña</label>
+                        <input type="password" 
+                               class="password-input" 
+                               id="password" 
+                               name="password" 
+                               placeholder="Ingrese su contraseña" 
+                               required>
+                    </div>
+                </div>
+
+                <button type="submit" class="enter-btn">
+                    <span class="btn-icon">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                    </span>
+                    INGRESAR AL SISTEMA
+                </button>
+            </form>
+        </div>
     </div>
 
     <!-- Versión -->
@@ -388,6 +653,26 @@
             };
             
             setTimeout(typeWriter, 1000);
+
+            // Efectos interactivos para los inputs
+            const bodegaSelect = document.querySelector('.bodega-select');
+            const passwordInput = document.querySelector('.password-input');
+
+            bodegaSelect.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+
+            bodegaSelect.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+
+            passwordInput.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+
+            passwordInput.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
         });
     </script>
 </body>

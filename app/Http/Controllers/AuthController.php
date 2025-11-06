@@ -7,14 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class HomeController extends Controller
+class AuthController extends Controller
 {
-    public function index()
+    public function showLoginForm()
     {
-        // Obtener todas las bodegas para el dropdown
-        $bodegas = Bodega::all();
-        
-        return view('home', compact('bodegas'));
+        return view('home');
     }
 
     public function login(Request $request)
@@ -33,7 +30,7 @@ class HomeController extends Controller
             
             $request->session()->regenerate();
 
-            return redirect()->route('dashboard');
+            return redirect()->intended('/dashboard');
         }
 
         return back()->withErrors([
@@ -49,10 +46,5 @@ class HomeController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
-    }
-
-    public function dashboard()
-    {
-        return view('dashboard');
     }
 }

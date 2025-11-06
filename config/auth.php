@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'bodega' => [
+        'driver' => 'session',
+        'provider' => 'bodegas',
+        ],
     ],
 
     /*
@@ -65,10 +70,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'bodegas' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Bodega::class,
+    ],
     ],
 
     /*

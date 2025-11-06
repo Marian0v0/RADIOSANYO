@@ -62,7 +62,6 @@
     </div>
 </div>
 
-{{-- Paginación Mejorada --}}
 @if($bodegas->hasPages())
 <div class="mt-4">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">

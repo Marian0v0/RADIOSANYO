@@ -23,7 +23,14 @@ class DatabaseSeeder extends Seeder
         DB::table('sgies_bodegas')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         
+        // Crear bodegas con contraseñas usando el factory
         $bodegas = Bodega::factory()->count(5)->create();
+        
+        // También crear una bodega específica para testing
+        Bodega::create([
+            'nombre' => 'Bodega Principal',
+            'password' => 'admin123', // El mutator la hasheará automáticamente
+        ]);
         
         $productos = Producto::factory()->count(50)->create();
         
@@ -82,9 +89,12 @@ class DatabaseSeeder extends Seeder
         }
         
         $this->command->info('Base de datos poblada exitosamente!');
-        $this->command->info('Bodegas: ' . $bodegas->count());
+        $this->command->info('Bodegas: ' . ($bodegas->count() + 1));
         $this->command->info('Productos: ' . $productos->count());
         $this->command->info('Listados contables: ' . $listados->count());
         $this->command->info('Solicitudes: ' . $solicitudes->count());
+        $this->command->info('Credenciales de prueba:');
+        $this->command->info('Bodega: Bodega Principal');
+        $this->command->info('Contraseña: admin123');
     }
 }

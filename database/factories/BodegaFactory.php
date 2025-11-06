@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 class BodegaFactory extends Factory
 {
@@ -19,6 +20,17 @@ class BodegaFactory extends Factory
                 'Bodega Central',
                 'Depósito ' . $this->faker->city(),
             ]),
+            'password' => 'password123', // La contraseña en texto plano, el mutator la hasheará
         ];
+    }
+
+    /**
+     * Para crear una bodega específica con contraseña conocida
+     */
+    public function withPassword($password)
+    {
+        return $this->state([
+            'password' => $password,
+        ]);
     }
 }

@@ -21,7 +21,8 @@ class BodegaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255|unique:sgies_bodegas,nombre',
+            'password' => 'required|string|min:6|confirmed',
         ]);
 
         Bodega::create($request->all());

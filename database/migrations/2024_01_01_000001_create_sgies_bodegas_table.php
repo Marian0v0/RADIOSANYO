@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('sgies_bodegas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 255)->nullable();
+            $table->string('password')->nullable(); // Asegúrate de tener esta línea
         });
     }
 
