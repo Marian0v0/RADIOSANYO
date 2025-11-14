@@ -10,13 +10,13 @@ return new class extends Migration
     {
         Schema::create('sgies_productos_listado', function (Blueprint $table) {
             $table->string('referencia_producto', 255);
-            $table->foreignId('id_listado_contable')->constrained('sgies_listado_contable', 'id');
+            $table->foreignId('id_listado_contable')->constrained('sgies_listado_contable', 'id')->onDelete('cascade');
             $table->boolean('cambio_precio')->default(false);
             $table->boolean('nuevo_producto')->default(false);
             
             $table->foreign('referencia_producto', 'referencia_producto')
                   ->references('referencia')
-                  ->on('sgies_productos');
+                  ->on('sgies_productos')->onDelete('cascade');
             
             // Clave primaria compuesta
             $table->primary(['referencia_producto', 'id_listado_contable'], 'productos_listado_pk');

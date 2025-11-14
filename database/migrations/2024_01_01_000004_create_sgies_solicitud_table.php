@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('sgies_solicitud', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_bodega')->constrained('sgies_bodegas', 'id');
+            $table->foreignId('id_bodega')->constrained('sgies_bodegas', 'id')->onDelete('cascade'); 
             $table->timestamp('fecha_solicitud')->useCurrent();
             $table->timestamp('fecha_cierre')->nullable();
             $table->tinyInteger('resuelto')->default(0);

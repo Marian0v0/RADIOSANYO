@@ -14,19 +14,16 @@ class BodegaFactory extends Factory
         return [
             'nombre' => $this->faker->randomElement([
                 'Bodega Principal',
-                'Bodega Secundaria',
-                'Almacén Norte',
-                'Almacén Sur',
-                'Bodega Central',
-                'Depósito ' . $this->faker->city(),
+                'Radio Sanyo 1',
+                'Radio Sanyo 2',
+                'Radio Sanyo 3',
+                'Radio Sanyo 4',
+                'Radio Sanyo 5',
             ]),
             'password' => 'password123', // La contraseña en texto plano, el mutator la hasheará
         ];
     }
 
-    /**
-     * Para crear una bodega específica con contraseña conocida
-     */
     public function withPassword($password)
     {
         return $this->state([
